@@ -35,7 +35,6 @@ func NewDWidnow(app *DApplication) (*DWindow, error) {
 	dwindow.manager = manager.NewManager("ditta.mainWindow")
 
 	// Connect necessary signals to the drawing area
-	dwindow.dArea.AddEvents(gdk.EVENT_BUTTON_PRESS)
 	dwindow.dArea.Connect("draw", drawLoop, dwindow.manager)
 	dwindow.Connect("key-press-event", func(win *gtk.ApplicationWindow, ev *gdk.Event) {
 		dwindow.manager.ReadKey(win, ev)
