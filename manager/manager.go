@@ -397,6 +397,8 @@ func (m *Manager) delChar() {
 	offset := m.getOffset()
 	if offset+1 < len(m.text) {
 		m.text = m.text[:offset] + m.text[offset+1:]
+	} else {
+		m.text = ""
 	}
 }
 
