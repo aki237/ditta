@@ -26,3 +26,5 @@ Luckily at the time of writing this project, Go had pretty good cairo bindings. 
 ![screenshot] (images/ditta.png)
 
 ** Skia is responsible for the rendering of Chrome, Sublime Text, Firefox(parts of).
+
+**For list of issues and todos refer [TODO](TODO.md)**
