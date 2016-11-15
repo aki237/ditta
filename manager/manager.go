@@ -202,7 +202,6 @@ func (m *Manager) checkShortcut(win *gtk.ApplicationWindow, key string) {
 				if cut != "" {
 					cb.SetText(cut)
 				}
-				m.selection.InSelection = false
 			}
 		}
 	}
@@ -269,7 +268,11 @@ func (m *Manager) CutStuff() string {
 	}
 	offset := m.getOffset()
 	selectionOffset := m.getOffsetFor(m.selection.X, m.selection.Y)
-	m.x, m.y = m.selection.X, m.selection.Y
+	if m.y > m.selection.Y {
+		m.y = m.selection.Y
+		m.x = m.selection.X
+	}
+	m.selection.InSelection = false
 	if selectionOffset > offset {
 		selection := m.text[offset:selectionOffset]
 		m.text = m.text[:offset] + m.text[selectionOffset:]
@@ -395,11 +398,15 @@ func (m *Manager) bkspChar() {
 
 func (m *Manager) delChar() {
 	offset := m.getOffset()
-	if offset+1 < len(m.text) {
-		m.text = m.text[:offset] + m.text[offset+1:]
-	} else {
-		m.text = ""
+	if !m.selection.InSelection {
+		if offset+1 < len(m.text) {
+			m.text = m.text[:offset] + m.text[offset+1:]
+		} else {
+			m.text = ""
+		}
+		return
 	}
+	m.CutStuff()
 }
 
 func (m Manager) getOffset() int {
